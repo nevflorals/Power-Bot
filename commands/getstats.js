@@ -1,10 +1,11 @@
 const { ApplicationCommandOptionType, EmbedBuilder } = require("discord.js");
-const userStats = require("../models/user-stats");
+const userStats = require("../models/user-stats.js");
 
 module.exports = {
     description: "View a users stats",
     
     type: "SLASH",
+    guildOnly: true,
 
     options: [
         {
@@ -25,7 +26,7 @@ module.exports = {
         if (data) {
 
             // Display them in an embed
-            
+
             const embed = new EmbedBuilder()
             .setTitle(`${user.displayName}'s Stats`)
             .setThumbnail(user.avatarURL())

@@ -6,8 +6,9 @@ module.exports = async (interaction, instance) => {
     const { customId, member, guild,  } = interaction
 
     if(customId.endsWith("approve")) {
-        const id = customId.split("-")[0]
+        // Get there ID and see if they are still in the server
 
+        const id = customId.split("-")[0]
         if (!id) return "An error occurred"
 
         const user = await guild.members.fetch(id)
@@ -21,6 +22,8 @@ module.exports = async (interaction, instance) => {
             return "That user is not longer in the server"
         }
 
+        // Get the stats from the embed
+
         const message = await interaction.message.fetch()
         if (!message) return "An error occorred"
 
@@ -29,10 +32,14 @@ module.exports = async (interaction, instance) => {
             return acc;
         }, {});
 
+        // Update the database
+
         await userStats.findByIdAndUpdate(`${interaction.guild.id}-${id}`, fields, {
             new: true,
             upsert: true
         })
+
+        // Update the embed
 
         const updatedEmbed = EmbedBuilder.from(message.embeds[0])
         .setColor('Green')
@@ -48,6 +55,8 @@ module.exports = async (interaction, instance) => {
             ephemeral: true
         })
     } else if (customId.endsWith("decline")) {
+        // Update the embed
+
         const message = await interaction.message.fetch()
         if (!message) return "An error occorred"
         
@@ -65,6 +74,8 @@ module.exports = async (interaction, instance) => {
             ephemeral: true
         })
     }
+
+    // Update the leaderboards
 
     updateLB(instance.client, guild.id)
 }

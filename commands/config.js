@@ -1,12 +1,11 @@
 const { PermissionsBitField, ApplicationCommandOptionType } = require("discord.js");
-const guildSettings = require("../models/guild-settings");
+const guildSettings = require("../models/guild-settings.js");
 const { CooldownTypes } = require("wokcommands");
 
 module.exports = {
     description: "Sets the channel where the leaderboard is sent",
 
     type: "SLASH",
-
     guildOnly: true,
     permissions: [PermissionsBitField.Flags.ManageGuild],
 

@@ -15,11 +15,12 @@ const client = new Client({
 })
 
 client.once('ready', async () => {
-    console.log("Bot is now online") // Log that the bot is online
+    console.log("Bot is now online")
 
     mongoose.connect(process.env.MONGO_URI)
 
     // Initialize Command Handler
+
     new WOK({
         client,
 

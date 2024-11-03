@@ -6,7 +6,6 @@ module.exports = {
     description: "Sets your stats for the leaderboard",
 
     type: "SLASH",
-
     guildOnly: true,
     
     cooldowns: {
@@ -61,11 +60,15 @@ module.exports = {
         const psychic = interaction.options.getString("psychic-power", true)
         const screenshot = interaction.options.getAttachment("screenshot", true)
 
+        // Check if all values are valid numbers
+
         if(!isValidStat(fist)) return "Your Fist Strength is not a valid number"
         if(!isValidStat(body)) return "Your Body Toughness is not a valid number"
         if(!isValidStat(move)) return "Your Movement Speed is not a valid number"
         if(!isValidStat(jump)) return "Your Jump Force is not a valid number"
         if(!isValidStat(psychic)) return "Your Psychic Power is not a valid number"
+
+        // Check if attachment is an image
 
         const validImageTypes = ["image/png", "image/jpeg", "image/webp"];
         
@@ -73,13 +76,17 @@ module.exports = {
             return interaction.reply("The uploaded file must be a valid image format (PNG, JPEG, WebP).");
         }
 
-        const settings = await guildSettings.findById(guild.id)
+        // See if guildSettings are configured
 
+        const settings = await guildSettings.findById(guild.id)
         if (!settings) return "This server hasn't setup guild settings yet"
 
-        const channel = await client.channels.fetch(settings.approveChannel)
+        // Get approval channel
 
+        const channel = await client.channels.fetch(settings.approveChannel)
         if(!channel) return "This server hasn't setup guild settings yet"
+
+        // Create approval embed to send to channel
 
         const embed = new EmbedBuilder()
         .setTitle("Stats approval")
