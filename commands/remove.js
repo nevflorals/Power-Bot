@@ -8,6 +8,7 @@ module.exports = {
     
     type: "SLASH",
     guildOnly: true,
+    deferReply: "ephemeral",
 
     options: [
         {
@@ -18,15 +19,17 @@ module.exports = {
         }
     ],
 
-    callback: async ({ interaction, guild }) => {
+    callback: async ({ interaction, guild, client }) => {
         const user = interaction.options.getUser("user", true)
 
         // If exists in the database remove them and update the LB
 
-        if (userStats.findById(`${member.guild.id}-${member.id}`)) {
-            await userStats.findByIdAndDelete(`${member.guild.id}-${member.id}`)
+        const stats = await userStats.findById(`${guild.id}-${user.id}`)
 
-            updateLB()
+        if (stats) {
+            await userStats.findByIdAndDelete(`${guild.id}-${user.id}`)
+
+            updateLB(client, guild.id)
 
             return `Removed ${user.username} from the database`
         } else {

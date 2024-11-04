@@ -3,24 +3,24 @@ const guildSettings = require("../models/guild-settings");
 const userStats = require("../models/user-stats");
 
 const suffixMap = {
-    "K": BigInt(1e3),    // Thousand (1,000)
-    "M": BigInt(1e6),    // Million (1,000,000)
-    "B": BigInt(1e9),    // Billion (1,000,000,000)
-    "T": BigInt(1e12),   // Trillion (1,000,000,000,000)
-    "Qa": BigInt(1e15),  // Quadrillion (1,000,000,000,000,000)
-    "Qi": BigInt(1e18),  // Quintillion (1,000,000,000,000,000,000)
-    "Sx": BigInt(1e21),  // Sextillion (1,000,000,000,000,000,000,000)
-    "Sp": BigInt(1e24),  // Septillion (1,000,000,000,000,000,000,000,000)
-    "Oc": BigInt(1e27),  // Octillion (1,000,000,000,000,000,000,000,000,000)
-    "No": BigInt(1e30),  // Nonillion (1,000,000,000,000,000,000,000,000,000,000)
-    "Dc": BigInt(1e33),  // Decillion (1,000,000,000,000,000,000,000,000,000,000,000)
-    "Ud": BigInt(1e36),  // Undecillion (1,000,000,000,000,000,000,000,000,000,000,000,000)
-    "Dd": BigInt(1e39),  // Dodacillion (1,000,000,000,000,000,000,000,000,000,000,000,000)
-    "Td": BigInt(1e42),  // Tredecillion (1,000,000,000,000,000,000,000,000,000,000,000,000)
-    "Qad": BigInt(1e45), // Quattuordecillion (1,000,000,000,000,000,000,000,000,000,000,000,000,000)
-    "Qid": BigInt(1e48), // Quindecillion (1,000,000,000,000,000,000,000,000,000,000,000,000,000,000)
-    "Sxd": BigInt(1e51), // Sexdecillion (1,000,000,000,000,000,000,000,000,000,000,000,000,000,000)
-    "Spd": BigInt(1e54), // Septendecillion (1,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000)
+    "k": BigInt(1e3),    // Thousand (1,000)
+    "m": BigInt(1e6),    // Million (1,000,000)
+    "b": BigInt(1e9),    // Billion (1,000,000,000)
+    "t": BigInt(1e12),   // Trillion (1,000,000,000,000)
+    "qa": BigInt(1e15),  // Quadrillion (1,000,000,000,000,000)
+    "qi": BigInt(1e18),  // Quintillion (1,000,000,000,000,000,000)
+    "sx": BigInt(1e21),  // Sextillion (1,000,000,000,000,000,000,000)
+    "sp": BigInt(1e24),  // Septillion (1,000,000,000,000,000,000,000,000)
+    "oc": BigInt(1e27),  // Octillion (1,000,000,000,000,000,000,000,000,000)
+    "no": BigInt(1e30),  // Nonillion (1,000,000,000,000,000,000,000,000,000,000)
+    "dc": BigInt(1e33),  // Decillion (1,000,000,000,000,000,000,000,000,000,000,000)
+    "ud": BigInt(1e36),  // Undecillion (1,000,000,000,000,000,000,000,000,000,000,000,000)
+    "dd": BigInt(1e39),  // Dodacillion (1,000,000,000,000,000,000,000,000,000,000,000,000)
+    "td": BigInt(1e42),  // Tredecillion (1,000,000,000,000,000,000,000,000,000,000,000,000)
+    "qad": BigInt(1e45), // Quattuordecillion (1,000,000,000,000,000,000,000,000,000,000,000,000,000)
+    "qid": BigInt(1e48), // Quindecillion (1,000,000,000,000,000,000,000,000,000,000,000,000,000,000)
+    "sxd": BigInt(1e51), // Sexdecillion (1,000,000,000,000,000,000,000,000,000,000,000,000,000,000)
+    "spd": BigInt(1e54), // Septendecillion (1,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000)
 };
 
 const propertyTitles = {
@@ -44,7 +44,7 @@ function extractValueWithSuffix(value) {
     if (match) {
         const numberPart = BigInt(Math.floor(parseFloat(match[1])));
         const suffixPart = match[2] || '';
-        const suffixValue = suffixMap[suffixPart] || BigInt(1);
+        const suffixValue = suffixMap[suffixPart.toLowerCase()] || BigInt(1);
         return {
             bigIntValue: numberPart * suffixValue, // Store BigInt value
             originalValue: value // Store original string value

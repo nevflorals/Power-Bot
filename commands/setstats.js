@@ -1,6 +1,7 @@
 const { ApplicationCommandOptionType, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js")
 const isValidStat = require("../util/isValidStat.js")
 const guildSettings = require("../models/guild-settings.js")
+const { omitUndefined } = require("mongoose")
 
 module.exports = {
     description: "Sets your stats for the leaderboard",
@@ -89,7 +90,7 @@ module.exports = {
         // Create approval embed to send to channel
 
         const embed = new EmbedBuilder()
-        .setTitle("Stats approval")
+        .setTitle(`Stats Approval for ${interaction.user.displayName}`)
         .setColor("Yellow")
         .setFields([
             {name: "Fist Strength", value: fist},
